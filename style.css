@@ -1,0 +1,342 @@
+/* ============================================================
+   Vyros — Muhammed Terkos | Portfolyo
+   Koyu gri zemin + kırmızı vurgu, tek ekran (scroll yok)
+   ============================================================ */
+
+:root {
+  --bg: hsl(264 4% 15%);          /* koyu gri zemin */
+  --card: hsl(264 5% 18%);        /* panel zemini */
+  --border: hsl(264 5% 28%);
+  --text: hsl(0 0% 93%);
+  --muted: hsl(264 4% 62%);
+  --primary: hsl(3 78% 55%);      /* kırmızı vurgu */
+  --primary-soft: hsl(3 78% 55% / 0.12);
+  --primary-border: hsl(3 78% 55% / 0.35);
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden; /* dikey kaydırma kilitli */
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+
+/* ---------- Kök: tam ekran + arka plan ızgarası ---------- */
+.page {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-image:
+    linear-gradient(hsl(264 5% 30% / 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(264 5% 30% / 0.25) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Kırmızı dekoratif parıltılar */
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.glow-left {
+  left: -10rem; top: 25%;
+  width: 42rem; height: 42rem;
+  background: hsl(3 78% 55% / 0.15);
+  filter: blur(120px);
+}
+.glow-right {
+  right: -10rem; bottom: 0;
+  width: 34rem; height: 34rem;
+  background: hsl(3 78% 55% / 0.10);
+  filter: blur(120px);
+}
+
+/* ---------- Ana yerleşim ---------- */
+.layout {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---------- Sol marka paneli ---------- */
+.brand {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid hsl(264 5% 28% / 0.6);
+  background: hsl(264 5% 18% / 0.4);
+  backdrop-filter: blur(6px);
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
+
+.brand-top { display: flex; align-items: center; gap: 1rem; }
+
+.portrait-wrap { position: relative; flex-shrink: 0; }
+.portrait-glow {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: hsl(3 78% 55% / 0.3);
+  filter: blur(24px);
+}
+.portrait {
+  position: relative;
+  width: 4rem; height: 4rem;
+  border-radius: 50%;
+  border: 1px solid hsl(3 78% 55% / 0.4);
+  object-fit: cover;
+  box-shadow: 0 0 24px hsl(3 78% 55% / 0.25);
+}
+
+.stage-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.real-name { font-size: 0.875rem; color: var(--muted); }
+
+/* Rol rozetleri */
+.roles { display: none; flex-wrap: wrap; gap: 0.5rem; }
+.roles span {
+  border: 1px solid hsl(264 5% 28% / 0.7);
+  background: hsl(264 5% 22% / 0.5);
+  border-radius: 999px;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+.roles-about { display: flex; margin-top: 0.25rem; }
+.roles-about span {
+  border-color: var(--primary-border);
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-radius: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ---------- Sekme menüsü ---------- */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.375rem;
+}
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.62rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--muted);
+  transition: all 0.3s ease;
+}
+.tab svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+.tab span { text-align: center; }
+.tab:hover { background: hsl(264 5% 22% / 0.6); color: var(--text); }
+.tab.active {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 8px 20px hsl(3 78% 55% / 0.2);
+}
+.tab .dot { display: none; }
+
+/* ---------- Sağ içerik ---------- */
+.content { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+.hero {
+  flex-shrink: 0;
+  border-bottom: 1px solid hsl(264 5% 28% / 0.7);
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--primary);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.grad {
+  background: linear-gradient(90deg, hsl(3 85% 60%), hsl(3 78% 48%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Paneller ---------- */
+.panel-area { flex: 1; min-height: 0; }
+.panel { display: none; height: 100%; flex-direction: column; gap: 0.75rem; }
+.panel.active { display: flex; animation: panel-fade 0.4s ease both; }
+
+@keyframes panel-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.lead { font-size: 0.92rem; line-height: 1.65; color: hsl(0 0% 93% / 0.9); }
+.muted { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+.muted.small { font-size: 0.875rem; }
+.accent { color: var(--primary); }
+
+/* ---------- Kartlar (müzik / sosyal) ---------- */
+.cards { display: flex; flex-direction: column; gap: 0.75rem; }
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  border: 1px solid hsl(264 5% 28% / 0.6);
+  background: hsl(264 5% 18% / 0.5);
+  border-radius: 0.75rem;
+  padding: 0.875rem;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  border-color: hsl(3 78% 55% / 0.5);
+  background: hsl(3 78% 55% / 0.05);
+}
+
+.card-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem; height: 2.5rem;
+  border-radius: 0.5rem;
+  background: var(--primary-soft);
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+.card-icon svg { width: 1.25rem; height: 1.25rem; }
+.card:hover .card-icon { background: var(--primary); color: #fff; }
+
+.card-text { min-width: 0; display: block; }
+.card-text b { display: block; font-size: 0.875rem; font-weight: 600; }
+.card-text i { display: block; font-style: normal; font-size: 0.75rem; color: var(--muted); }
+
+.ext {
+  margin-left: auto;
+  width: 1rem; height: 1rem;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  flex-shrink: 0;
+}
+.card:hover .ext { opacity: 1; }
+
+/* ---------- İletişim kartları ---------- */
+.contact-card { justify-content: space-between; flex-wrap: wrap; }
+.contact-card .label {
+  font-style: normal;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  display: block;
+}
+.contact-card .mail {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.contact-card .mail:hover { color: var(--primary); }
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  border: 1px solid hsl(264 5% 28% / 0.7);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  transition: all 0.3s ease;
+}
+.copy-btn svg { width: 0.875rem; height: 0.875rem; }
+.copy-btn:hover { border-color: hsl(3 78% 55% / 0.5); color: var(--primary); }
+.copy-btn.copied { border-color: var(--primary-border); color: var(--primary); }
+
+/* ---------- Geniş ekran (lg) ---------- */
+@media (min-width: 1024px) {
+  .layout { flex-direction: row; gap: 2.5rem; padding: 2rem; }
+
+  .brand { width: 22rem; padding: 1.5rem; }
+  .brand-top { display: block; }
+  .brand-name { margin-top: 1.25rem; }
+  .stage-name { font-size: 1.5rem; }
+  .portrait { width: 7rem; height: 7rem; }
+
+  .roles-desktop { display: flex; margin-top: 1.25rem; }
+
+  .tabs { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 2rem; }
+  .tab {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+  .tab span { text-align: left; white-space: nowrap; }
+  .tab .dot {
+    display: block;
+    margin-left: auto;
+    width: 0.375rem; height: 0.375rem;
+    border-radius: 50%;
+    background: var(--primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .tab.active .dot { opacity: 1; background: #fff; }
+
+  .hero h1 { font-size: 2.1rem; }
+  .hero { margin-bottom: 1.5rem; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .lead { font-size: 0.97rem; }
+  .muted { font-size: 0.92rem; }
+  .card-icon { width: 2.75rem; height: 2.75rem; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .stage-name { font-size: 1.5rem; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+}
